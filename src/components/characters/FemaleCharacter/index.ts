@@ -1,0 +1,1 @@
+export { FemaleCharacter } from "./FemaleCharacter";

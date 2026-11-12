@@ -1,9 +1,11 @@
 import type { NextConfig } from "next";
 
+/** `npm run app:build` define APP_BUILD=1: gera um site estatico em `out/` para o app de desktop. */
+const isAppBuild = process.env.APP_BUILD === "1";
+
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // PPR/cache components nao funcionam em exportacao estatica
+  ...(isAppBuild ? {} : { cacheComponents: true, partialPrefetching: true }),
   turbopack: {
     rules: {
       "*.css": {
@@ -12,6 +14,7 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  ...(isAppBuild ? { output: "export" as const, distDir: ".next-app" } : {}),
 };
 
 export default nextConfig;

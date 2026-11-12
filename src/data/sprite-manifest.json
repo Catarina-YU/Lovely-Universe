@@ -1,0 +1,52 @@
+{
+  "frameWidth": 32,
+  "frameHeight": 48,
+  "columns": 4,
+  "animations": {
+    "idle-down": {
+      "row": 0,
+      "frames": 2,
+      "fps": 2
+    },
+    "idle-left": {
+      "row": 1,
+      "frames": 2,
+      "fps": 2
+    },
+    "idle-right": {
+      "row": 2,
+      "frames": 2,
+      "fps": 2
+    },
+    "idle-up": {
+      "row": 3,
+      "frames": 2,
+      "fps": 2
+    },
+    "walk-down": {
+      "row": 4,
+      "frames": 4,
+      "fps": 8
+    },
+    "walk-left": {
+      "row": 5,
+      "frames": 4,
+      "fps": 8
+    },
+    "walk-right": {
+      "row": 6,
+      "frames": 4,
+      "fps": 8
+    },
+    "walk-up": {
+      "row": 7,
+      "frames": 4,
+      "fps": 8
+    },
+    "sit-back": {
+      "row": 8,
+      "frames": 2,
+      "fps": 1.5
+    }
+  }
+}

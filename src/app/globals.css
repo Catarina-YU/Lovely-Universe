@@ -1,26 +1,126 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --night-900: #0b1033;
+  --night-800: #141a4a;
+  --night-700: #1f2260;
+  --purple: #4b3a9a;
+  --lilac: #b79ae6;
+  --blue: #4f7fd1;
+  --gold: #f5d98b;
+  --ink: #1a1226;
+  --paper: #f6efe0;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-night-900: var(--night-900);
+  --color-night-800: var(--night-800);
+  --color-night-700: var(--night-700);
+  --color-purple: var(--purple);
+  --color-lilac: var(--lilac);
+  --color-blue: var(--blue);
+  --color-gold: var(--gold);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --font-pixel: var(--font-pixel-title), monospace;
+  --font-body: var(--font-pixel-body), monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html,
+body {
+  background: var(--night-900);
+  color: var(--paper);
+  font-family: var(--font-pixel-body), monospace;
+  font-size: 22px;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Pixel art nitida em qualquer escala */
+canvas,
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Borda pixelada reutilizavel (caixas de dialogo, botoes, cartoes) */
+.pixel-box {
+  background: var(--night-800);
+  color: var(--paper);
+  box-shadow:
+    0 -4px 0 0 var(--paper),
+    0 4px 0 0 var(--paper),
+    -4px 0 0 0 var(--paper),
+    4px 0 0 0 var(--paper),
+    0 0 0 4px var(--ink),
+    0 8px 0 0 var(--ink);
+}
+
+/* Estrela de 4 pontas (formato pixel) para indicadores */
+.pixel-star {
+  display: inline-block;
+  clip-path: polygon(
+    50% 0,
+    62% 38%,
+    100% 50%,
+    62% 62%,
+    50% 100%,
+    38% 62%,
+    0 50%,
+    38% 38%
+  );
+}
+
+canvas {
+  display: block;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Final: surge devagar, depois que a constelacao se desenha */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.finale-reveal {
+  animation: fade-in 1.4s ease-out 5.6s both;
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+  }
 }

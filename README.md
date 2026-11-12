@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nosso Universo
 
-## Getting Started
+Uma pequena aventura em pixel art, feita como surpresa: o Pedro encontra a Catarina num campo à noite, os dois sentam para olhar o céu e cada estrela guarda uma memória do casal.
 
-First, run the development server:
+Feito com Next.js (App Router), React, TypeScript, Tailwind CSS e PixiJS (`pixi.js` + `@pixi/react`). Pensado para abrir **no computador** (WASD para andar, `E` para interagir, mouse para as estrelas).
+
+## Rodar
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # desenvolvimento em http://localhost:3000
+npm run build    # build de produção
+npm run start    # serve o build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Onde editar o conteúdo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| O quê | Arquivo |
+| --- | --- |
+| Títulos, textos, datas e fotos das 6 memórias | `src/data/memories.ts` |
+| Falas, frases, mensagens das estrelas bloqueadas e mensagem final | `src/data/dialogues.ts` |
+| Posição das 6 estrelas (formam o coração) | `src/data/stars.ts` |
+| Campo, obstáculos, onde cada um começa e onde sentam | `src/data/meetingWorld.ts` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Para colocar uma foto numa memória, copie o arquivo para `public/assets/memories/` e informe o caminho em `image`, por exemplo `"/assets/memories/foto.png"`.
 
-## Learn More
+## Estrutura
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/                 layout, página e estilos globais
+├── components/
+│   ├── Game/            monta o jogo (um único palco Pixi para todas as cenas)
+│   ├── scenes/          cenas: Intro, Meeting e Universe (mundo + interface)
+│   ├── pixi/            PixiStage, NightSky, Moon, Horizon, ShootingStar
+│   ├── characters/      Character (spritesheet animado), Pedro e Catarina
+│   ├── stars/           Star, StarField, HeartConstellation
+│   └── ui/              botões, diálogo, cartão de memória, menu etc. (DOM)
+├── core/
+│   ├── game/            máquina de fases e progresso salvo
+│   ├── movement/        movimento, colisão e câmera (lógica pura)
+│   ├── cutscene/        passos encadeáveis para cenas automáticas
+│   └── audio/           música e efeitos sintetizados (Web Audio)
+├── features/            meeting, memories, universe, world, introduction
+├── hooks/               teclado, movimento, memórias, som, etc.
+├── data/                conteúdo editável
+├── lib/                 constantes e utilitários
+└── types/               tipos compartilhados
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Fases do jogo: `intro → meeting → sitting → dialogue → memories → finale`. O progresso das memórias é salvo no navegador (Menu → Reiniciar progresso apaga).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Personagens (sprites)
 
-## Deploy on Vercel
+Os spritesheets são desenhados em código. Para ajustar cores, roupas ou poses, edite `tools/sprites/generate.mjs` e rode:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+node tools/sprites/generate.mjs
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Isso regenera `public/assets/characters/*.png`, `src/data/sprite-manifest.json` e uma prévia em `tools/sprites/sheet-preview.png`.
+
+## Notas técnicas
+
+- O Pixi só roda no navegador (`ssr: false`), e existe **um único** `Application` durante todo o jogo: criar e destruir Applications entre cenas quebra a renderização.
+- Use `usePixiTick` (em `src/hooks`) no lugar do `useTick` do `@pixi/react`; o original lança erro ao desmontar.
+- Respeita `prefers-reduced-motion`.

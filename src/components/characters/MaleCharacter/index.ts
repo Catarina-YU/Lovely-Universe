@@ -1,0 +1,1 @@
+export { MaleCharacter } from "./MaleCharacter";
