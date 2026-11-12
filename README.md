@@ -1,7 +1,3 @@
-# Nosso Universo
-
-Uma pequena aventura em pixel art, feita como surpresa: o Pedro encontra a Catarina num campo à noite, os dois sentam para olhar o céu e cada estrela guarda uma memória do casal.
-
 Feito com Next.js (App Router), React, TypeScript, Tailwind CSS e PixiJS (`pixi.js` + `@pixi/react`). Pensado para abrir **no computador** (WASD para andar, `E` para interagir, mouse para as estrelas).
 
 ## Rodar
